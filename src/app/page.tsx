@@ -1,101 +1,92 @@
-import Image from "next/image";
+"use client"
 
-export default function Home() {
+import { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { UserManagement } from '@/components/user-management'
+import { RoleManagement } from '@/components/role-management'
+import { Header } from '@/components/header'
+import { AuthProvider } from '@/components/auth-provider'
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Users, ShieldCheck } from 'lucide-react'
+
+// Mock data for initial users and roles
+const initialUsers = [
+  { id: 1, name: 'John Doe', email: 'john@example.com', role: 'Admin', status: 'Active' },
+  { id: 2, name: 'Jane Smith', email: 'jane@example.com', role: 'Editor', status: 'Active' },
+  { id: 3, name: 'Bob Johnson', email: 'bob@example.com', role: 'Viewer', status: 'Inactive' },
+]
+
+const initialRoles = [
+  { id: 1, name: 'Admin', permissions: ['read', 'write', 'delete'], customAttributes: { accessLevel: 'Full' } },
+  { id: 2, name: 'Editor', permissions: ['read', 'write'], customAttributes: { accessLevel: 'Partial' } },
+  { id: 3, name: 'Viewer', permissions: ['read'], customAttributes: { accessLevel: 'Limited' } },
+]
+
+export default function RBACDashboard() {
+  // State for users and roles
+  const [users, setUsers] = useState(initialUsers)
+  const [roles, setRoles] = useState(initialRoles)
+  const [activeTab, setActiveTab] = useState('users')
+
+  // Effect to load data from localStorage on component mount
+  useEffect(() => {
+    const storedUsers = JSON.parse(localStorage.getItem('users') || '[]')
+    const storedRoles = JSON.parse(localStorage.getItem('roles') || '[]')
+
+    if (storedUsers.length > 0) setUsers(storedUsers)
+    if (storedRoles.length > 0) setRoles(storedRoles)
+  }, [])
+
+  // Effect to save users to localStorage when they change
+  useEffect(() => {
+    localStorage.setItem('users', JSON.stringify(users))
+  }, [users])
+
+  // Effect to save roles to localStorage when they change
+  useEffect(() => {
+    localStorage.setItem('roles', JSON.stringify(roles))
+  }, [roles])
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+    <AuthProvider>
+      <div className="min-h-screen bg-gray-100">
+        <Header />
+        <main className="container mx-auto py-6 px-4">
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+            <TabsList className="grid w-full grid-cols-2 mb-8 max-w-md mx-auto">
+              <TabsTrigger 
+                value="users" 
+                className="flex items-center justify-center space-x-2 text-sm sm:text-lg py-2 sm:py-3 transition-all duration-200 ease-in-out"
+              >
+                <Users className="w-4 h-4 sm:w-5 sm:h-5" />
+                <span className="hidden sm:inline">User Management</span>
+                <span className="sm:hidden">Users</span>
+              </TabsTrigger>
+              <TabsTrigger 
+                value="roles" 
+                className="flex items-center justify-center space-x-2 text-sm sm:text-lg py-2 sm:py-3 transition-all duration-200 ease-in-out"
+              >
+                <ShieldCheck className="w-4 h-4 sm:w-5 sm:h-5" />
+                <span className="hidden sm:inline">Role Management</span>
+                <span className="sm:hidden">Roles</span>
+              </TabsTrigger>
+            </TabsList>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeTab}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+              >
+                {activeTab === 'users' && <UserManagement users={users} setUsers={setUsers} roles={roles} />}
+                {activeTab === 'roles' && <RoleManagement roles={roles} setRoles={setRoles} />}
+              </motion.div>
+            </AnimatePresence>
+          </Tabs>
+        </main>
+      </div>
+    </AuthProvider>
+  )
 }
+

@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# RBAC Dashboard
 
-## Getting Started
+## Introduction
 
-First, run the development server:
+The RBAC (Role-Based Access Control) Dashboard is a comprehensive web application built with Next.js and React. It provides a user-friendly interface for managing users and roles within an organization, implementing core principles of role-based access control.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 1. User Management
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- View a list of users with details such as name, email, role, and status
+- Add new users to the system
+- Edit existing user information
+- Delete users from the system
+- Search users by name
+- Filter users by role
+- Pagination for user list
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 2. Role Management
 
-## Learn More
+- View a list of roles with their associated permissions and custom attributes
+- Add new roles to the system
+- Edit existing role information, including permissions and custom attributes
+- Delete roles from the system
+- Search roles by name
+- Pagination for role list
 
-To learn more about Next.js, take a look at the following resources:
+### 3. Authentication
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Simulated login functionality (for demonstration purposes)
+- Persistent user session using local storage
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 4. Responsive Design
 
-## Deploy on Vercel
+- Fully responsive layout that works on desktop and mobile devices
+- Optimized table views for different screen sizes
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 5. User Interface
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Clean and modern UI using Tailwind CSS
+- Animated transitions for improved user experience
+- Tabbed interface to switch between User and Role management
+
+## Components
+
+1. `app/page.tsx`: Main dashboard component with tabs for User and Role management
+2. `components/header.tsx`: Application header with title
+3. `components/auth-provider.tsx`: Context provider for authentication
+4. `components/user-management.tsx`: User management interface
+5. `components/role-management.tsx`: Role management interface
+6. `components/user-table.tsx`: Responsive table for displaying user information
+7. `components/add-edit-user-dialog.tsx`: Dialog for adding or editing user information
+8. `components/ui/pagination-component.tsx`: Reusable pagination component
+
+## Setup and Installation
+
+1. Clone the repository
+2. Install dependencies:
+
+- Use `npm install` to install all the required dependencies.This includes Tailwind CSS, React, and other necessary libraries.
