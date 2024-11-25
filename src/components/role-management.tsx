@@ -12,10 +12,10 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Edit, Trash2, Plus, Search } from 'lucide-react'
 
 interface Role {
-  id: number
-  name: string
-  permissions: string[]
-  customAttributes: Record<string, string>
+  id: number;
+  name: string;
+  permissions: string[];
+  customAttributes: { accessLevel: string };
 }
 
 interface RoleManagementProps {

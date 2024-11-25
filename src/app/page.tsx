@@ -54,16 +54,16 @@ export default function RBACDashboard() {
         <main className="container mx-auto py-6 px-4">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsList className="grid w-full grid-cols-2 mb-8 max-w-md mx-auto">
-              <TabsTrigger 
-                value="users" 
+              <TabsTrigger
+                value="users"
                 className="flex items-center justify-center space-x-2 text-sm sm:text-lg py-2 sm:py-3 transition-all duration-200 ease-in-out"
               >
                 <Users className="w-4 h-4 sm:w-5 sm:h-5" />
                 <span className="hidden sm:inline">User Management</span>
                 <span className="sm:hidden">Users</span>
               </TabsTrigger>
-              <TabsTrigger 
-                value="roles" 
+              <TabsTrigger
+                value="roles"
                 className="flex items-center justify-center space-x-2 text-sm sm:text-lg py-2 sm:py-3 transition-all duration-200 ease-in-out"
               >
                 <ShieldCheck className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -89,4 +89,3 @@ export default function RBACDashboard() {
     </AuthProvider>
   )
 }
-
